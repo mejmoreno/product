@@ -1,0 +1,131 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Product {
+	string name;
+	int cost;
+	int quantity;
+};
+
+const int SIZE = 10;
+Product productsDetails[SIZE];
+int productCount = 0;
+
+void addProduct() {
+	if (productCount < SIZE) {
+		cout << "Enter product details:" << endl;
+		cout << "Name: ";
+		cin >> productsDetails[productCount].name;
+		cout << "Cost: ";
+		cin >> productsDetails[productCount].cost;
+		cout << "Quantity: ";
+		cin >> productsDetails[productCount].quantity;
+		productCount++;
+		cout << "Product added successfully." << endl;
+	}
+	else {
+		cout << "Maximum product limit reached." << endl;
+	}
+}
+
+void deleteProduct() {
+	string productName;
+	cout << "Enter product name to delete: ";
+	cin >> productName;
+	bool productFound = false;
+
+	for (int i = 0; i < productCount; ++i) {
+		if (productsDetails[i].name == productName) {
+			productFound = true;
+			for (int j = i; j < productCount - 1; ++j) {
+				productsDetails[j] = productsDetails[j + 1];
+			}
+			productCount--;
+			cout << "Product deleted successfully." << endl;
+			break;
+		}
+	}
+
+	if (!productFound) {
+		cout << "Product not found." << endl;
+	}
+}
+
+void updateProduct() {
+	string productName;
+	cout << "Enter product name to update: ";
+	cin >> productName;
+	bool productFound = false;
+
+	for (int i = 0; i < productCount; ++i) {
+		if (productsDetails[i].name == productName) {
+			productFound = true;
+			cout << "Enter new cost: ";
+			cin >> productsDetails[i].cost;
+			cout << "Enter new quantity: ";
+			cin >> productsDetails[i].quantity;
+			cout << "Product updated successfully." << endl;
+			break;
+		}
+	}
+
+	if (!productFound) {
+		cout << "Product not found." << endl;
+	}
+}
+
+double computeTotal() {
+	double total = 0.0;
+
+	for (int i = 0; i < productCount; ++i) {
+		total += productsDetails[i].cost * productsDetails[i].quantity;
+	}
+
+	return total;
+}
+
+int main() {
+
+	do {
+
+		int productsDetails[10];
+		int productCount = 0;
+		int configureProduct;
+		cout << "Shopping System" << endl
+			<< "\n(1) Add products" << endl
+			<< "(2) Delete products" << endl
+			<< "(3) Update existing product" << endl
+			<< "(4) Compute total" << endl
+			<< "(0) Exit" << endl
+			<< "\nChoice: ";
+
+		cin >> configureProduct;
+
+		system("cls");
+
+		switch (configureProduct) {
+		case 1:
+			addProduct();
+			break;
+		case 2:
+			deleteProduct();
+			break;
+		case 3:
+			updateProduct();
+			break;
+		case 4:
+			cout << "Total cost: $" << computeTotal() << endl;
+			break;
+		case 0:
+			cout << "Exiting program..." << endl;
+			exit(0);
+			break;
+		default:
+			cout << "Invalid option." << endl;
+			break;
+		}
+	} while (true);
+	return 0;
+}
